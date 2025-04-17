@@ -1,0 +1,214 @@
+{
+    "Version": "2019-10-30",
+    "StartAction": "",
+    "Metadata": {
+        "entryPointPosition": {
+            "x": 40,
+            "y": 40
+        },
+        "ActionMetadata": {
+            "2f995755-224a-4179-abe3-dee7b94638e4": {
+                "position": {
+                    "x": 220,
+                    "y": 137.6
+                }
+            },
+            "36445557-8aac-44e5-a2ed-c43badf6570d": {
+                "position": {
+                    "x": 856,
+                    "y": 336.8
+                }
+            },
+            "4f35fc56-7a5f-4931-826d-ecb65fc46965": {
+                "position": {
+                    "x": 833.6,
+                    "y": 90.4
+                }
+            },
+            "468c2279-9c1a-4562-af78-03b0bdd10230": {
+                "position": {
+                    "x": 217.6,
+                    "y": 332
+                },
+                "children": [
+                    "7706eb1c-ab60-4b60-8c67-5c19991dea63"
+                ],
+                "overrideConsoleVoice": false,
+                "fragments": {
+                    "SetContactData": "7706eb1c-ab60-4b60-8c67-5c19991dea63"
+                },
+                "overrideLanguageAttribute": true
+            },
+            "7706eb1c-ab60-4b60-8c67-5c19991dea63": {
+                "position": {
+                    "x": 217.6,
+                    "y": 332
+                },
+                "dynamicParams": []
+            },
+            "0bafd418-5263-4147-83a2-9fe530f5c05a": {
+                "position": {
+                    "x": 542.4,
+                    "y": 491.2
+                }
+            },
+            "c8492a0c-0117-4356-89c5-a6e929420505": {
+                "position": {
+                    "x": 527.2,
+                    "y": 264.8
+                },
+                "parameters": {
+                    "Attributes": {
+                        "dateToday": {
+                            "useDynamic": true
+                        }
+                    }
+                },
+                "dynamicParams": [
+                    "dateToday"
+                ]
+            },
+            "fe5796f2-0ef8-4ba6-a664-1716afa4ed2e": {
+                "position": {
+                    "x": 521.6,
+                    "y": 48.8
+                },
+                "parameters": {
+                    "LambdaFunctionARN": {
+                        "displayName": "connectDateTime-ausConnectPOC"
+                    }
+                },
+                "dynamicMetadata": {
+                    "locale": false,
+                    "timeZone": false
+                }
+            }
+        },
+        "Annotations": []
+    },
+    "Actions": [
+        {
+            "Parameters": {
+                "FlowLoggingBehavior": "Enabled"
+            },
+            "Identifier": "2f995755-224a-4179-abe3-dee7b94638e4",
+            "Type": "UpdateFlowLoggingBehavior",
+            "Transitions": {
+                "NextAction": "468c2279-9c1a-4562-af78-03b0bdd10230"
+            }
+        },
+        {
+            "Parameters": {},
+            "Identifier": "36445557-8aac-44e5-a2ed-c43badf6570d",
+            "Type": "DisconnectParticipant",
+            "Transitions": {}
+        },
+        {
+            "Parameters": {
+                "SSML": "<speak><break time=\"1s\"/>Hello! Welcome to our contact center.\nToday is <say-as interpret-as=\"date\">$.Attributes.dateToday</say-as>. Thank you!</speak>"
+            },
+            "Identifier": "4f35fc56-7a5f-4931-826d-ecb65fc46965",
+            "Type": "MessageParticipant",
+            "Transitions": {
+                "NextAction": "36445557-8aac-44e5-a2ed-c43badf6570d",
+                "Errors": [
+                    {
+                        "NextAction": "36445557-8aac-44e5-a2ed-c43badf6570d",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "TextToSpeechVoice": "Nicole"
+            },
+            "Identifier": "468c2279-9c1a-4562-af78-03b0bdd10230",
+            "Type": "UpdateContactTextToSpeechVoice",
+            "Transitions": {
+                "NextAction": "7706eb1c-ab60-4b60-8c67-5c19991dea63",
+                "Errors": [
+                    {
+                        "NextAction": "fe5796f2-0ef8-4ba6-a664-1716afa4ed2e",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "LanguageCode": "en-AU"
+            },
+            "Identifier": "7706eb1c-ab60-4b60-8c67-5c19991dea63",
+            "Type": "UpdateContactData",
+            "Transitions": {
+                "NextAction": "fe5796f2-0ef8-4ba6-a664-1716afa4ed2e",
+                "Errors": [
+                    {
+                        "NextAction": "fe5796f2-0ef8-4ba6-a664-1716afa4ed2e",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "Text": "Error occured."
+            },
+            "Identifier": "0bafd418-5263-4147-83a2-9fe530f5c05a",
+            "Type": "MessageParticipant",
+            "Transitions": {
+                "NextAction": "36445557-8aac-44e5-a2ed-c43badf6570d",
+                "Errors": [
+                    {
+                        "NextAction": "36445557-8aac-44e5-a2ed-c43badf6570d",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "Attributes": {
+                    "dateToday": "$.External.date"
+                },
+                "TargetContact": "Current"
+            },
+            "Identifier": "c8492a0c-0117-4356-89c5-a6e929420505",
+            "Type": "UpdateContactAttributes",
+            "Transitions": {
+                "NextAction": "4f35fc56-7a5f-4931-826d-ecb65fc46965",
+                "Errors": [
+                    {
+                        "NextAction": "4f35fc56-7a5f-4931-826d-ecb65fc46965",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        },
+        {
+            "Parameters": {
+                "LambdaFunctionARN": "arn:aws:lambda:eu-west-2:086740017581:function:connectDateTime-ausConnectPOC",
+                "InvocationTimeLimitSeconds": "3",
+                "LambdaInvocationAttributes": {
+                    "locale": "en-AU",
+                    "timeZone": "Australia/Sydney"
+                },
+                "ResponseValidation": {
+                    "ResponseType": "JSON"
+                }
+            },
+            "Identifier": "fe5796f2-0ef8-4ba6-a664-1716afa4ed2e",
+            "Type": "InvokeLambdaFunction",
+            "Transitions": {
+                "NextAction": "c8492a0c-0117-4356-89c5-a6e929420505",
+                "Errors": [
+                    {
+                        "NextAction": "0bafd418-5263-4147-83a2-9fe530f5c05a",
+                        "ErrorType": "NoMatchingError"
+                    }
+                ]
+            }
+        }
+    ]
+}

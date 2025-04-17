@@ -1,14 +1,115 @@
-# Welcome to your CDK TypeScript project
+# Amazon Connect: DateTime Lambda Integration (CDK POC)
 
-This is a blank project for CDK development with TypeScript.
+This project demonstrates a lightweight **Amazon Connect integration** using **AWS CDK (TypeScript)**.  
+It provisions infrastructure to greet callers and respond with the current **localized date and time**.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+---
 
-## Useful commands
+## Features
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+- Greets the caller with the current **date and time** using SSML
+- Automatically **associates the Lambda** with the Amazon Connect instance
+- Fully deployable and repeatable via **AWS CDK**
+
+---
+
+## Stack Components
+
+- `ConnectDateTime Lambda`  
+  - Responds with the current date/time (formatted via `toLocaleString`)
+
+- `AssociateConnectCustomLambda`  
+  - Associates the above Lambda with your Amazon Connect instance using `connect:AssociateLambdaFunction`
+
+- `Custom Resource`  
+  - Ensures Lambda association is automated at deploy-time
+
+---
+
+## 📂 Project Structure
+
+```
+packages/
+  infrastructure/
+    lib/
+      ausconnect-stack.ts         # Main CDK stack
+    config.ts                     # Environment-specific config
+  backend/
+    lambdas/
+      connectDateTime/            # Lambda that formats and returns the date
+      connectAssociateLambda/     # Lambda that handles association logic
+bin/
+  ausconnect.ts                      # CDK app entrypoint
+```
+
+---
+
+## Deploy Instructions
+
+1. Configure your AWS CLI credentials:
+
+```bash
+aws configure
+```
+
+2. Bootstrap CDK (only once per environment):
+
+```bash
+npx cdk bootstrap
+```
+
+3. Install dependencies and build:
+
+```bash
+npm install
+npm run build
+```
+
+4. Deploy the stack:
+
+```bash
+npx cdk deploy
+```
+
+---
+
+## Configuration
+
+Update `config.ts` to match your environment:
+
+```ts
+export const ausconnectConfig: AusconnectStackProps = {
+  instanceId: '<your-connect-instance-id>',
+  prefix: 'connectDemo',
+  env: { account: '<your-aws-account>', region: 'eu-west-2' },
+  defaultLocale: 'en-AU',
+  defaultTimeZone: 'Australia/Sydney',
+};
+```
+---
+
+## High Level Architecture
+
+![image info](./images/AUSConnect.drawio.png)
+---
+
+## Example Connect  Flow
+
+![image info](./images/flowJson.JPG)
+
+---
+
+---
+
+## 🧪 Example Lambda Output
+
+```json
+{
+  "date": "18/04/2025, 6:47 pm"
+}
+```
+
+---
+
+## Issues Encountered
+- Australian Phone number restriction
