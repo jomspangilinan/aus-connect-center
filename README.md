@@ -1,4 +1,4 @@
-# Amazon Connect: DateTime Lambda Integration (CDK POC)
+# Amazon Connect: DateTime Lambda Integration
 
 This project demonstrates a lightweight **Amazon Connect integration** using **AWS CDK (TypeScript)**.  
 It provisions infrastructure to greet callers and respond with the current **localized date and time**.
@@ -7,7 +7,7 @@ It provisions infrastructure to greet callers and respond with the current **loc
 
 ## Features
 
-- Greets the caller with the current **date and time** using SSML
+- Greets the caller with the current **date and time** 
 - Automatically **associates the Lambda** with the Amazon Connect instance
 - Fully deployable and repeatable via **AWS CDK**
 
@@ -19,14 +19,14 @@ It provisions infrastructure to greet callers and respond with the current **loc
   - Responds with the current date/time (formatted via `toLocaleString`)
 
 - `AssociateConnectCustomLambda`  
-  - Associates the above Lambda with your Amazon Connect instance using `connect:AssociateLambdaFunction`
+  - Associates the lambda with your Amazon Connect instance using `connect:AssociateLambdaFunction`
 
 - `Custom Resource`  
-  - Ensures Lambda association is automated at deploy-time
+  - Automated lambda association to Amazon Connect Instance
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 packages/
